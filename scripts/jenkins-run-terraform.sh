@@ -1,9 +1,9 @@
 #!/bin/bash
 set -ex
 AWS_REGION="eu-west-1"
-S3_BUCKET=`aws s3 ls --region $AWS_REGION |grep terraform-state |tail -n1 |cut -d ' ' -f3`
+S3_BUCKET=`aws s3 ls --region $AWS_REGION |grep petclinic-terraform-state |tail -n1 |cut -d ' ' -f3`
 echo $S3_BUCKET
-sed -i ${S3_BUCKET}'/' backend.tf
+sed -i 's/petclinic-terraform-state-o4wz4851/'${S3_BUCKET}'/' backend.tf
 sed -i 's/#//g' backend.tf
 aws s3 cp s3://${S3_BUCKET}/amivar.tf amivar.tf --region $AWS_REGION
 terraform init
